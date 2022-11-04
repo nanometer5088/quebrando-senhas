@@ -1,4 +1,6 @@
-from src.generic import escrever_arquivo
+from src.generic import escrever_arquivo, lista
+from itertools import product
+from rich.progress import track
 
 def listas():
     i = 0
@@ -18,8 +20,7 @@ def listas():
     arquivo.close()
     return vet
 
-def senhas():
-    senha_com_nome = listas()
+def senhas(senha_com_nome):
     listadesenhas = []
     listadenomes = []
     for i in range(len(senha_com_nome)):
@@ -28,19 +29,11 @@ def senhas():
         listadenomes.append(senha_com_nome[i][0])
     return listadesenhas, listadenomes
 
-def find(senha_criptografada):
-    senha = senhas()[0]
-    for i in range(len(senha)):
-        if senha_criptografada == senha[i]:
-            return senhas()[1][i]
-
 def combinations():
     from src.generic import lista
-    from itertools import product
-
-    listafinal = []
     lista = lista()
-
+    listafinal = []
+    
     lista1 = list(product(lista, repeat=1))
     lista2 = list(product(lista, repeat=2))
     lista3 = list(product(lista, repeat=3))
@@ -48,7 +41,7 @@ def combinations():
     lista5 = list(product(lista, repeat=5))
     listatotal = lista1 + lista2 + lista3 + lista4 + lista5
 
-    for i in range(len(listatotal)):
+    for i in track(range(len(listatotal)), "Computando as combinações..."):
         if len(listatotal[i]) == 1:
             listafinal.append(listatotal[i][0])
 
@@ -66,38 +59,34 @@ def combinations():
 
     return listafinal
 
-def criptografaCombinacoes():
+def criptografaCombinacoes(combinacoes):
     from src.encrypt import codificar_senha
-    combinacoes = combinations()
     senhascodificadas = []
-    for i in range(len(combinacoes)):
+    for i in track(range(len(combinacoes)), "Criptografando as combinações..."):
         senhascodificadas.append(codificar_senha(combinacoes[i]))
     return senhascodificadas
 
-def comparatd():
+def comparatd(muchograndelistadepossibilidades, senhasgeradas, senhasdoarquivo, listadenomes):
     listaresultados = []
-    muchograndelistadepossibilidades = combinations()
     def testapredefinido(senha, pos):
-        senhasdoarquivo = senhas()[0]
         for i in range(len(senhasdoarquivo)):
             if senhasdoarquivo[i] == senha:
-                listaresultados.append(senhas()[1][i])
-                escrever_arquivo('senhas_quebradas.txt', senhas()[1][i]+':'+muchograndelistadepossibilidades[pos]+'\n')
+                listaresultados.append(listadenomes[i])
+                escrever_arquivo('senhas_quebradas.txt', listadenomes[i]+':'+muchograndelistadepossibilidades[pos]+'\n')
 
-    senhasgeradas = criptografaCombinacoes()
     
-    for i in range(len(senhasgeradas)):
+    for i in track(range(len(senhasgeradas)), "Comparando as combinações criptografadas com a dos usuários..."):
         a = testapredefinido(senhasgeradas[i], i)
-    return listaresultados
 
-def senhas_nao_quebradas():
-    todasassenhas = senhas()[1]
-    senhascrackeadas = comparatd()
-    x = set(todasassenhas) - set(senhascrackeadas)
+    senhascrackeadas = listaresultados
+    x = set(listadenomes) - set(senhascrackeadas)
+
+    if len(x) < 1:
+        return None
 
     listafinal = []
     for i in range(len(x)):
-        listafinal.append(senhas()[1][todasassenhas.index(list(x)[i])]+':'+senhas()[0][todasassenhas.index(list(x)[i])])
+        listafinal.append(listadenomes[listadenomes.index(list(x)[i])]+':'+senhasdoarquivo[listadenomes.index(list(x)[i])])
     listafinal.sort()
     for i in range(len(listafinal)):
         escrever_arquivo('senhas_nao_quebradas.txt', listafinal[i]+'\n')
