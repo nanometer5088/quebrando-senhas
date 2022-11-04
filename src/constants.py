@@ -38,8 +38,8 @@ WARNING = {
                       Há uma nova versão disponível!
           Atualizações trazem melhorias de performance e jogabilidade!
 
-                    Faça download da nova versão aqui:
-       https://github.com/nanometer5088/bingo/archive/refs/heads/main.zip
+                           Faça download da nova versão aqui:
+       https://github.com/nanometer5088/quebrando-senhas/archive/refs/heads/main.zip
 
     Pressione ENTER para continuar
 """}
