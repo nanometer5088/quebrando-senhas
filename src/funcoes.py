@@ -1,3 +1,5 @@
+from src.generic import escrever_arquivo
+
 def listas():
     i = 0
     vazio = ''
@@ -33,7 +35,7 @@ def find(senha_criptografada):
             return senhas()[1][i]
 
 def combinations():
-    from src.generic import escrever_arquivo, lista
+    from src.generic import lista
     from itertools import product
 
     listafinal = []
@@ -79,10 +81,24 @@ def comparatd():
         senhasdoarquivo = senhas()[0]
         for i in range(len(senhasdoarquivo)):
             if senhasdoarquivo[i] == senha:
-                listaresultados.append([senhas()[1][i], muchograndelistadepossibilidades[pos]])
+                listaresultados.append(senhas()[1][i])
+                escrever_arquivo('senhas_quebradas.txt', senhas()[1][i]+':'+muchograndelistadepossibilidades[pos]+'\n')
 
     senhasgeradas = criptografaCombinacoes()
     
     for i in range(len(senhasgeradas)):
         a = testapredefinido(senhasgeradas[i], i)
     return listaresultados
+
+def senhas_nao_quebradas():
+    todasassenhas = senhas()[1]
+    senhascrackeadas = comparatd()
+    x = set(todasassenhas) - set(senhascrackeadas)
+
+    listafinal = []
+    for i in range(len(x)):
+        listafinal.append(senhas()[1][todasassenhas.index(list(x)[i])]+':'+senhas()[0][todasassenhas.index(list(x)[i])])
+    listafinal.sort()
+    for i in range(len(listafinal)):
+        escrever_arquivo('senhas_nao_quebradas.txt', listafinal[i]+'\n')
+    #escrever_arquivo('senhas_nao_quebradas.txt', )

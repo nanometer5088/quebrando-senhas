@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Project files
+senhas_quebradas.txt
+senhas_nao_quebradas.txt

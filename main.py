@@ -1,7 +1,4 @@
-from src.funcoes import comparatd
+from src.funcoes import senhas_nao_quebradas
 
-k = comparatd()
-if len(k) > 1:
-    print("Senhas Encontradas!\n")
-    for i in range(len(k)):
-        print("Usuário "+k[i][0]+" Senha: "+k[i][1])
+#Parte 1
+senhas_nao_quebradas()
