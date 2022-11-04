@@ -11,4 +11,8 @@ from src.funcoes import *
 #senhas_para_arquivo('k')
 #print(find('JqnPIZYP5+WTMI+tIAplfXhbY0tUd82xgV+wrss7ucbHumwI5bs5epKQ7SO7v6y5c3RzHNhF+0V+ivSbRgamqA=='))
 
-print(len(combinations()))
+k = comparatd()
+if len(k) > 1:
+    print("Senhas Encontradas!\n")
+    for i in range(len(k)):
+        print("Usuário "+k[i][0]+" Senha: "+k[i][1])
