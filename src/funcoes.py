@@ -1,6 +1,5 @@
-from src.generic import escrever_arquivo, lista
+from src.generic import escrever_arquivo
 from itertools import product
-from rich.progress import track
 
 def listas():
     i = 0
@@ -30,6 +29,7 @@ def senhas(senha_com_nome):
     return listadesenhas, listadenomes
 
 def combinations():
+    from rich.progress import track
     from src.generic import lista
     lista = lista()
     listafinal = []
@@ -60,6 +60,7 @@ def combinations():
     return listafinal
 
 def criptografaCombinacoes(combinacoes):
+    from rich.progress import track
     from src.encrypt import codificar_senha
     senhascodificadas = []
     for i in track(range(len(combinacoes)), "Criptografando as combinações..."):
@@ -67,6 +68,7 @@ def criptografaCombinacoes(combinacoes):
     return senhascodificadas
 
 def comparatd(muchograndelistadepossibilidades, senhasgeradas, senhasdoarquivo, listadenomes):
+    from rich.progress import track
     listaresultados = []
     def testapredefinido(senha, pos):
         for i in range(len(senhasdoarquivo)):
@@ -81,6 +83,8 @@ def comparatd(muchograndelistadepossibilidades, senhasgeradas, senhasdoarquivo, 
     senhascrackeadas = listaresultados
     x = set(listadenomes) - set(senhascrackeadas)
 
+    print(f'\n\tSucesso!\n\n\t{len(listaresultados)} senha(s) foram descoberta(s). Essas informações foram salvas em "senhas_quebradas.txt"')
+
     if len(x) < 1:
         return None
 
@@ -90,4 +94,6 @@ def comparatd(muchograndelistadepossibilidades, senhasgeradas, senhasdoarquivo, 
     listafinal.sort()
     for i in range(len(listafinal)):
         escrever_arquivo('senhas_nao_quebradas.txt', listafinal[i]+'\n')
-    #escrever_arquivo('senhas_nao_quebradas.txt', )
+    
+    print(f"\t{len(x)} senha(s) não puderam ser descobertas com a wordlist dada. As senhas criptografadas estão em 'senhas_nao_quebradas'")
+    
