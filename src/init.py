@@ -1,9 +1,9 @@
-import os
+from os import system as sys
 from src.constants import WARNING, INTRO
 
 def inicio():
     #Início do programa e indrodução para o usuário
-    os.system("cls || clear")
+    sys("cls || clear")
     input(INTRO["mainintro"])
 
     # Verifica por atualizações, e avisa o usuário caso encontre alguma
@@ -12,7 +12,7 @@ def inicio():
         data = requests.get("https://raw.githubusercontent.com/nanometer5088/quebrando-senhas/main/VERSION")
         version = open('VERSION', 'r', encoding='utf=8')
         if version.readline().rstrip() < (data.text):
-            os.system("cls || clear")
+            sys("cls || clear")
             input(WARNING["newversion"])
         version.close()
     except requests.exceptions.ConnectionError:
@@ -23,10 +23,10 @@ def inicio():
     # o programa ao finalizar
     try:
         from rich.progress import track
-        os.system("cls || clear")
+        sys("cls || clear")
     except ModuleNotFoundError:
-        os.system("cls || clear")
+        sys("cls || clear")
         input(WARNING["libraries"])
-        os.system("pip install -r requirements.txt --user")
-        os.system("cls || clear")
+        sys("pip install -r requirements.txt --user")
+        sys("cls || clear")
         return "instalado"

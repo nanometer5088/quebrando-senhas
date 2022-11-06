@@ -1,14 +1,12 @@
-def senhas_para_arquivo(senha):
-    with open('senhas_quebradas.txt', 'a') as arquivo:
-        arquivo.write(senha+'\n')
-        arquivo.close()
-
 def escrever_arquivo(arquivo, string):
+    #Adiciona uma string em um arquivo
+    #Se o arquivo não existir, ele é criado
     with open(arquivo, 'a') as arquivo:
         arquivo.write(string)
         arquivo.close()
 
 def lista():
+    #Retorna o conteúdo de "palavras.txt"
     i = 0
     vazio = ''
     arquivo = open('palavras.txt', 'r', encoding='utf-8')

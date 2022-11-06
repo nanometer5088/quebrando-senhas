@@ -1,7 +1,11 @@
 from src.generic import escrever_arquivo
 from itertools import product
+from os import system as sys
+
 
 def listas():
+    #Retorna o conteúdo de "usuarios_senhascodificadas.txt"
+    #em duas listas, separados por usuário e senha
     i = 0
     vazio = ''
     arquivo = open('usuarios_senhascodificadas.txt', 'r', encoding='utf-8')
@@ -20,6 +24,8 @@ def listas():
     return vet
 
 def senhas(senha_com_nome):
+    #Retorna duas listas separadas
+    #provenientes do listas()
     listadesenhas = []
     listadenomes = []
     for i in range(len(senha_com_nome)):
@@ -29,6 +35,8 @@ def senhas(senha_com_nome):
     return listadesenhas, listadenomes
 
 def combinations():
+    #Gera todas as combinações de palavras possíveis
+    #com as palavras do arquivo "palavras.txt"
     from rich.progress import track
     from src.generic import lista
     lista = lista()
@@ -60,6 +68,8 @@ def combinations():
     return listafinal
 
 def criptografaCombinacoes(combinacoes):
+    #Criptografa todas as combinações geradas
+    #pela função combinations()
     from rich.progress import track
     from src.encrypt import codificar_senha
     senhascodificadas = []
@@ -70,6 +80,10 @@ def criptografaCombinacoes(combinacoes):
 def comparatd(muchograndelistadepossibilidades, senhasgeradas, senhasdoarquivo, listadenomes):
     from rich.progress import track
     listaresultados = []
+    #Compara a senha criptografada com as existentes
+    #no arquivo "usuarios_senhascodificadas.txt";
+    #Se existir, escreve no arquivo "senhas_quebradas.txt"
+    #o nome do usuário e a senha descriptografada
     def testapredefinido(senha, pos):
         for i in range(len(senhasdoarquivo)):
             if senhasdoarquivo[i] == senha:
@@ -83,8 +97,14 @@ def comparatd(muchograndelistadepossibilidades, senhasgeradas, senhasdoarquivo, 
     senhascrackeadas = listaresultados
     x = set(listadenomes) - set(senhascrackeadas)
 
-    print(f'\n\tSucesso!\n\n\t{len(listaresultados)} senha(s) foram descoberta(s). Essas informações foram salvas em "senhas_quebradas.txt"')
-
+    if len(listaresultados) < 1:
+        sys("cls || clear")
+        print("\tNenhuma senha pode ser descoberta. Insira palavras no arquivo 'usuarios_senhascodificadas.txt'")
+    elif len(listaresultados) >= 1:
+        print(f'\n\tSucesso!\n\n\t{len(listaresultados)} senha(s) foram descoberta(s). Essas informações foram salvas em "senhas_quebradas.txt"')
+    
+    #Determina se houve senhas não encontradas, e
+    #insere as mesmas no arquivo "senhas_nao_quebradas.txt"
     if len(x) < 1:
         return None
 
@@ -95,5 +115,5 @@ def comparatd(muchograndelistadepossibilidades, senhasgeradas, senhasdoarquivo, 
     for i in range(len(listafinal)):
         escrever_arquivo('senhas_nao_quebradas.txt', listafinal[i]+'\n')
     
-    print(f"\t{len(x)} senha(s) não puderam ser descobertas com a wordlist dada. As senhas criptografadas estão em 'senhas_nao_quebradas'")
+    print(f"\t{len(x)} senha(s) não puderam ser descobertas com a wordlist dada. As senhas criptografadas estão em 'senhas_nao_quebradas.txt'")
     
