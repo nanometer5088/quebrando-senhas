@@ -11,10 +11,13 @@ def inicio():
     #'senhas_quebradas.txt' e 'senhas_nao_quebradas.txt'
     try:
         remove('senhas_quebradas.txt')
+    except OSError:
+        pass
+    
+    try:
         remove('senhas_nao_quebradas.txt')
     except OSError:
         pass
-
 
     # Verifica por atualizações, e avisa o usuário caso encontre alguma
     try:

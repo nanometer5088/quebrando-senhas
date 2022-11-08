@@ -23,3 +23,10 @@ def lista():
         i += 1
     arquivo.close()
     return vet
+
+def sort_segundoelemento(entrada):
+    def segundo(valor):
+        return valor[1]
+    entrada.sort(key=segundo)
+    return entrada
+

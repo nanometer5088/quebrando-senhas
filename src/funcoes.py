@@ -1,4 +1,4 @@
-from src.generic import escrever_arquivo
+from src.generic import escrever_arquivo, sort_segundoelemento
 from itertools import product
 from os import system as sys
 
@@ -80,6 +80,7 @@ def criptografaCombinacoes(combinacoes):
 def comparatd(muchograndelistadepossibilidades, senhasgeradas, senhasdoarquivo, listadenomes):
     from rich.progress import track
     listaresultados = []
+    listaparaescrever = []
     #Compara a senha criptografada com as existentes
     #no arquivo "usuarios_senhascodificadas.txt";
     #Se existir, escreve no arquivo "senhas_quebradas.txt"
@@ -88,14 +89,58 @@ def comparatd(muchograndelistadepossibilidades, senhasgeradas, senhasdoarquivo, 
         for i in range(len(senhasdoarquivo)):
             if senhasdoarquivo[i] == senha:
                 listaresultados.append(listadenomes[i])
-                escrever_arquivo('senhas_quebradas.txt', listadenomes[i]+':'+muchograndelistadepossibilidades[pos]+'\n')
-
+                listaparaescrever.append([listadenomes[i],muchograndelistadepossibilidades[pos]])
     
     for i in track(range(len(senhasgeradas)), "Comparando as combinações criptografadas com a dos usuários..."):
-        a = testapredefinido(senhasgeradas[i], i)
+        testapredefinido(senhasgeradas[i], i)
 
-    senhascrackeadas = listaresultados
-    x = set(listadenomes) - set(senhascrackeadas)
+    lista1 = []
+    lista2 = []
+    lista3 = []
+    lista4 = []
+    lista5 = []
+    for i in range(len(listaparaescrever)):
+        if len(listaparaescrever[i][1].split()) == 1:
+            lista1.append(listaparaescrever[i])
+
+    for i in range(len(listaparaescrever)):
+        if len(listaparaescrever[i][1].split()) == 2:
+            lista2.append(listaparaescrever[i])
+    
+    for i in range(len(listaparaescrever)):
+        if len(listaparaescrever[i][1].split()) == 3:
+            lista3.append(listaparaescrever[i])
+
+    for i in range(len(listaparaescrever)):
+        if len(listaparaescrever[i][1].split()) == 4:
+            lista4.append(listaparaescrever[i])
+
+    for i in range(len(listaparaescrever)):
+        if len(listaparaescrever[i][1].split()) == 5:
+            lista5.append(listaparaescrever[i])
+
+    sort_segundoelemento(lista1)
+    for i in range(len(lista1)):
+        escrever_arquivo('senhas_quebradas.txt', lista1[i][0]+':'+lista1[i][1]+'\n')
+    
+    sort_segundoelemento(lista2)
+    for i in range(len(lista2)):
+        escrever_arquivo('senhas_quebradas.txt', lista2[i][0]+':'+lista2[i][1]+'\n')
+
+    sort_segundoelemento(lista3)
+    for i in range(len(lista3)):
+        escrever_arquivo('senhas_quebradas.txt', lista3[i][0]+':'+lista3[i][1]+'\n')
+
+    sort_segundoelemento(lista4)
+    for i in range(len(lista4)):
+        escrever_arquivo('senhas_quebradas.txt', lista4[i][0]+':'+lista4[i][1]+'\n')
+
+    sort_segundoelemento(lista5)
+    for i in range(len(lista5)):
+        escrever_arquivo('senhas_quebradas.txt', lista5[i][0]+':'+lista5[i][1]+'\n')
+
+
+    x = set(listadenomes) - set(listaresultados)
 
     if len(listaresultados) < 1:
         sys("cls || clear")
