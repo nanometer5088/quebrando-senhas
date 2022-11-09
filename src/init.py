@@ -19,18 +19,6 @@ def inicio():
     except OSError:
         pass
 
-    # Verifica por atualizações, e avisa o usuário caso encontre alguma
-    try:
-        import requests
-        data = requests.get("https://raw.githubusercontent.com/nanometer5088/quebrando-senhas/main/VERSION")
-        version = open('VERSION', 'r', encoding='utf=8')
-        if version.readline().rstrip() < (data.text):
-            system("cls || clear")
-            input(WARNING["newversion"])
-        version.close()
-    except requests.exceptions.ConnectionError:
-        pass
-
     # Detecção e instalação das dependências - Caso não estejam instaladas,
     # a instalação ocorre e o programa é encerrado. O usuário é avisado para reiniciar
     # o programa ao finalizar
@@ -43,3 +31,15 @@ def inicio():
         system("pip install -r requirements.txt --user")
         system("cls || clear")
         return "instalado"
+
+    # Verifica por atualizações, e avisa o usuário caso encontre alguma
+    try:
+        import requests
+        data = requests.get("https://raw.githubusercontent.com/nanometer5088/quebrando-senhas/main/VERSION")
+        version = open('VERSION', 'r', encoding='utf=8')
+        if version.readline().rstrip() < (data.text):
+            system("cls || clear")
+            input(WARNING["newversion"])
+        version.close()
+    except requests.exceptions.ConnectionError:
+        pass
